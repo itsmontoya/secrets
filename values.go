@@ -2,7 +2,11 @@ package secrets
 
 import "encoding/json"
 
-func makeValues(str, key string) (out Values, err error) {
+func makeValues() (out Values) {
+	return make(Values)
+}
+
+func makeValuesFromString(str, key string) (out Values, err error) {
 	if len(str) == 0 {
 		return
 	}

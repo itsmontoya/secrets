@@ -19,7 +19,7 @@ func (s *Secrets) Values(key string, fn func(Values)) (err error) {
 		fn(s.v)
 	default:
 		var v Values
-		if v, err = makeValues(s.s, key); err != nil {
+		if v, err = makeValuesFromString(s.s, key); err != nil {
 			return
 		}
 
