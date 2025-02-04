@@ -3,9 +3,12 @@ package secrets
 import (
 	"crypto/aes"
 	"encoding/json"
+	"log"
 	"reflect"
 	"testing"
 )
+
+var example *Secrets
 
 func TestSecrets_Full(t *testing.T) {
 	var err error
@@ -211,5 +214,22 @@ func compareSecrets(a, b *Secrets) (equals bool) {
 		return true
 	default:
 		return reflect.DeepEqual(a.v, b.v)
+	}
+}
+
+func ExampleNew() {
+	example = New()
+}
+
+func ExampleSecrets_Values() {
+	example.Values("myKey", func(v Values) {
+		v["foo"] = "bar"
+	})
+}
+
+func ExampleSecrets_Encrypt() {
+	err := example.Encrypt("myKey")
+	if err != nil {
+		log.Printf("error encrypting: %v\n", err)
 	}
 }
