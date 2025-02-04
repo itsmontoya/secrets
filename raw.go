@@ -46,7 +46,6 @@ func (r *Raw[T]) Values(key string, fn func(T)) (err error) {
 // Encrypt will encrypt the underlying values
 func (r *Raw[T]) Encrypt(key string) (err error) {
 	if !r.valueIsSet {
-		r.s = ""
 		return
 	}
 
