@@ -15,7 +15,10 @@ func TestSecrets_Full(t *testing.T) {
 		"bar": "2",
 	}
 	s := Secrets{
-		v: testValues,
+		Raw: Raw[Values]{
+			valueIsSet: true,
+			v:          testValues,
+		},
 	}
 
 	if err = s.Encrypt(orgID); err != nil {
@@ -86,8 +89,11 @@ func TestSecrets_MarshalJSON(t *testing.T) {
 			name: "value",
 			value: testValue{
 				Secrets: &Secrets{
-					v: Values{
-						"foo": "bar",
+					Raw: Raw[Values]{
+						valueIsSet: true,
+						v: Values{
+							"foo": "bar",
+						},
 					},
 				},
 			},
@@ -99,8 +105,10 @@ func TestSecrets_MarshalJSON(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			var err error
-			if err = tt.value.Secrets.Encrypt(orgID); err != nil {
-				t.Fatal(err)
+			if tt.value.Secrets != nil {
+				if err = tt.value.Secrets.Encrypt(orgID); err != nil {
+					t.Fatal(err)
+				}
 			}
 
 			var gotBS []byte
@@ -147,7 +155,10 @@ func TestSecrets_UnmarshalJSON(t *testing.T) {
 			json: []byte(`{"secrets":""}`),
 			want: testValue{
 				Secrets: &Secrets{
-					v: Values{},
+					Raw: Raw[Values]{
+						valueIsSet: true,
+						v:          Values{},
+					},
 				},
 			},
 			wantErr: false,
@@ -157,7 +168,9 @@ func TestSecrets_UnmarshalJSON(t *testing.T) {
 			json: []byte(`{"secrets":"303030303030303100000000000000001c4a28b0eb880e401c6eb672d6"}`),
 			want: testValue{
 				Secrets: &Secrets{
-					s: "303030303030303100000000000000001c4a28b0eb880e401c6eb672d6",
+					Raw: Raw[Values]{
+						s: "303030303030303100000000000000001c4a28b0eb880e401c6eb672d6",
+					},
 				},
 			},
 			wantErr: false,
