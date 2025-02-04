@@ -4,17 +4,13 @@ import (
 	"encoding/json"
 )
 
-func NewRaw[T any](g Generator[T]) (out *Raw[T], err error) {
-	var r Raw[T]
-	if r, err = MakeRaw(g); err != nil {
-		return
-	}
-
+func NewRaw[T any](g Generator[T]) (out *Raw[T]) {
+	r := MakeRaw(g)
 	out = &r
 	return
 }
 
-func MakeRaw[T any](g Generator[T]) (out Raw[T], err error) {
+func MakeRaw[T any](g Generator[T]) (out Raw[T]) {
 	out.g = g
 	return
 }
