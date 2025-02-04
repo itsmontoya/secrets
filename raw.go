@@ -25,7 +25,7 @@ type Raw[T any] struct {
 }
 
 // Values will get the current values of the Raw
-func (r *Raw[T]) Values(key string, fn func(T)) (err error) {
+func (r *Raw[T]) Values(key string, fn func(T) error) (err error) {
 	switch {
 	case r.valueIsSet:
 	case len(r.s) == 0:
