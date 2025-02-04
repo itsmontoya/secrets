@@ -38,7 +38,7 @@ func TestSecrets_Full(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if err = out.Values(orgID, func(v Values) {
+	if err = out.Values(orgID, func(v Values) (err error) {
 		if v["foo"] != testValues["foo"] {
 			t.Fatalf("invalid value for \"foo\", want %s and received %s", testValues["foo"], v["foo"])
 		}
@@ -47,6 +47,7 @@ func TestSecrets_Full(t *testing.T) {
 			t.Fatalf("invalid value for \"bar\", want %s and received %s", testValues["bar"], v["bar"])
 		}
 
+		return
 	}); err != nil {
 		t.Fatal(err)
 	}
@@ -222,8 +223,9 @@ func ExampleNew() {
 }
 
 func ExampleSecrets_Values() {
-	example.Values("myKey", func(v Values) {
+	example.Values("myKey", func(v Values) (err error) {
 		v["foo"] = "bar"
+		return
 	})
 }
 
