@@ -4,6 +4,7 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 )
 
@@ -70,5 +71,19 @@ func decrypt(in string, key string) (out []byte, err error) {
 
 	// Return the decrypted text as a string
 	out = cipherText[aes.BlockSize:]
+	return
+}
+
+func decryptToJSON(str, key string, value any) (err error) {
+	if len(str) == 0 {
+		return
+	}
+
+	var decrypted []byte
+	if decrypted, err = decrypt(str, key); err != nil {
+		return
+	}
+
+	err = json.Unmarshal(decrypted, value)
 	return
 }
