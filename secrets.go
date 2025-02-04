@@ -1,6 +1,6 @@
 package secrets
 
-func New() (out *Secrets, err error) {
+func New() (out *Secrets) {
 	var s Secrets
 	s.Raw = MakeRaw[Values](makeValues)
 	out = &s
