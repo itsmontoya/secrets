@@ -96,3 +96,7 @@ func (r *Raw[T]) UnmarshalJSON(bs []byte) (err error) {
 	*r = raw
 	return
 }
+
+func (r *Raw[T]) String() string {
+	return r.s
+}
